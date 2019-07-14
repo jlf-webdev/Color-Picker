@@ -54,24 +54,17 @@ class Picker {
         const onMouseDown = (e) => {
             let currentX = e.clientX - this.target.offsetLeft;
             let currentY = e.clientY - this.target.offsetTop;
-
-            if(currentY > this.pickerCircle.y && 
-               currentY < this.pickerCircle.y + this.pickerCircle.width &&
-               currentX > this.pickerCircle.x &&
-               currentX < this.pickerCircle.x + this.pickerCircle.width) {
-                   isMouseDown = true;
-               }else {
-                    this.pickerCircle.x = currentX;
-                    this.pickerCircle.y = currentY;
-                }
+            this.pickerCircle.x = currentX >= pickerWidth ? pickerWidth-1 : currentX;
+            this.pickerCircle.y = currentY >= pickerHeight ? pickerHeight-1 : currentY;  
+            isMouseDown = true;
         }
 
         const onMouseMove = (e) => {
             if (isMouseDown) {
                 let currentX = e.clientX - this.target.offsetLeft;
                 let currentY = e.clientY - this.target.offsetTop;
-                this.pickerCircle.x = currentX;
-                this.pickerCircle.y = currentY;
+                this.pickerCircle.x = currentX >= pickerWidth ? pickerWidth-1 : currentX;
+                this.pickerCircle.y = currentY >= pickerHeight ? pickerHeight-1 : currentY;
             }
         }
 
@@ -100,7 +93,9 @@ class Picker {
     }
 }
 
-let picker = new Picker(document.getElementById("color-picker"), 250, 220);
+let pickerWidth = 250;
+let pickerHeight = 220;
+let picker = new Picker(document.getElementById("color-picker"), pickerWidth, pickerHeight);
 
 //Draw
 setInterval(() => picker.draw(), 1);
